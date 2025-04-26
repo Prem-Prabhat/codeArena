@@ -1,21 +1,24 @@
 import express from "express";
 import dotenv from "dotenv";
+import authRoutes from "./routes/auth.routes.js";
 
-// Load environment variables
+
 dotenv.config();
 
-// Initialize express app
+
 const app = express();
 
-// Middleware to parse JSON requests
+
 app.use(express.json());
 
-// Basic route
+
 app.get("/", (req, res) => {
-  res.send("Hello World! ");
+  res.send("Hello guys welcome to the codeArena 🔥");
 });
 
-// Server listening
+app.use("/api/v1/auth", authRoutes );
+
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
