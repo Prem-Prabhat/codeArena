@@ -29,6 +29,14 @@ export const register = async (req, res) => {
         role: UserRole.USER,
       },
     });
+   
+
+    await sendEmail(
+      newUser.email,
+      "Welcome to Our App 🎉",
+      `Hello ${newUser.name},\n\nThanks for signing up!`
+    );
+
     const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
@@ -80,7 +88,11 @@ export const login = async (req, res) => {
         error: "Invalid credentials",
       });
     }
-
+    await sendEmail(
+      user.email,
+      "Login Notification",
+      `Hi ${user.name},\n\nYou have successfully logged in to your account. If this wasn't you, please change your password.`
+    );
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
@@ -211,6 +223,11 @@ export const resetPassword = async (req, res) => {
         password: hashedPassword,
       },
     });
+
+    const subject = "Your Password Has Been Reset Successfully";
+    const text = `Hi ${user.name},\n\n Your password was successfully reset.`;
+
+    await sendEmail(user.email, subject, text);
 
     res.status(200).json({
       success: true,

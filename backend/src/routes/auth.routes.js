@@ -15,6 +15,7 @@ authRoutes.post("/logout" , authMiddleware, logout);
 authRoutes.get("/check", authMiddleware, check);
 
 authRoutes.post("/forgot-password", forgotPassword);
+
 authRoutes.post("/reset-password", resetPassword);
 
 
